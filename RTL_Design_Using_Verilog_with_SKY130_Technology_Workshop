@@ -1,0 +1,119 @@
+**Day 2 - Timing libs, hierarchical vs flat synthesis and efficient flop coding styles**
+**1.TIMING lib**
+Below sceen shot shows how the .lib looks and what it contains,in sky 130 the 130 indicates it is 130 nm technology and .lib also shows the operating conditions process, voltage and temperature.
+ 
+ 
+![image](https://user-images.githubusercontent.com/84865915/120032386-bc3fa300-c017-11eb-8f04-a0395981e326.png)
+![image](https://user-images.githubusercontent.com/84865915/120032504-e98c5100-c017-11eb-9a32-3b6ab9c6d5ac.png)
+
+
+.lib also has the information about the different features of the cells
+For each cell it gives the information about the 
+1.leakage power
+2.delay
+3.area
+4.input capacitance
+5.power associated
+6.timing information and etc..
+**2.heirarchical design vs flat synthesis :**
+Here we have taken AND gate as one module and OR gate as another module both were instantiated under multiple module.
+Eg:module sub_module2 (input a, input b,output);
+                      Assign y=a | b;
+     endmodule
+module sub_module1 (input a, input b,output);
+                      Assign y=a & b;
+     endmodule
+module multiple_module (input a, input b, input c ,output y);
+                      wire net1;
+                      sub_module1 u1(.a(a),.b(b),.y(net1));
+                      sub_module2 u2(.a(net1),.b(c),.y(y));
+     endmodule
+Here we are going to synthesize the top level multiple module,we can also synthesize sub modules and also connect their nere netlists also but this can be done  mainly in 2 cases:1.If we have same module instatiated many times then instead of synthesizing many times we have to synthesize it one time and replicate that netlist those many times.
+2.If we have massive design then instead of giving massive design to the tool we will give portion by portion and stich all the netlist to get best possible netlist at the top level this is called DIVIDE AND CONQUER approach.:
+
+![image](https://user-images.githubusercontent.com/84865915/120032652-235d5780-c018-11eb-97cf-957112f34996.png)
+
+
+ 
+0After flattening heirarchies are not preserved
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120032704-33753700-c018-11eb-95cb-d212bfbfd50e.png)
+
+Without flattening heirarchies are preserved and we have seen U1 and U2
+But when we flatten we can see entire structure which contains both AND and OR gates as shown in below screen shot
+![image](https://user-images.githubusercontent.com/84865915/120033453-33296b80-c019-11eb-94d0-65baa08ec320.png)
+
+
+ **3.Usage of FLOPS:**
+In the circuit if we have more combinational circuits then outputs will become more and more glitiching, so we want an element to store that value ,that element is called as a FLOP.
+We must initialize the flipflop with some vaue otherwise combinational circuit will store garbage value so we are using RESET/SET pins.
+1]asynchronous reset:irrespective of clock if reset is one then output goes to zero.
+![image](https://user-images.githubusercontent.com/84865915/120033515-463c3b80-c019-11eb-9fcd-e5ecc7afa446.png)
+
+ 
+2]asynchronous set:irrespective of clock if set is one then output goes to one.
+![image](https://user-images.githubusercontent.com/84865915/120033535-50f6d080-c019-11eb-91fa-aecaeac9cc37.png)
+
+ 
+3]synchronous reset:Even though reset is one until and unless we come across posedge of clock then only output changes. 
+![image](https://user-images.githubusercontent.com/84865915/120033566-5b18cf00-c019-11eb-8ead-aad2589b7b68.png)
+ 
+
+4]When Both synchronous and asynchronous reset are used
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033605-64a23700-c019-11eb-97dd-7f4f7e8e7d5d.png)
+
+
+
+NETLIST of asynchronous reset:Netlist obtained after using yosys synthesizer
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033636-7552ad00-c019-11eb-9c52-f609ca50b4b1.png)
+
+
+NETLIST of asynchronous set:
+
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033658-7daae800-c019-11eb-97bc-6193f5182726.png)
+
+
+NETLIST of synchronous reset:
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033684-8c919a80-c019-11eb-9202-057a68ae717f.png)
+
+
+NETLIST of synchronous reset and asynchronous reset:
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033710-96b39900-c019-11eb-921f-f38326647c94.png)
+
+
+**4.Optimizations:**
+Eg:module mul2 (input [2:0] a, output [3:0] y);
+                      Assign y =a*2;
+endmodule
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033741-a337f180-c019-11eb-93a2-a7fa1310c957.png)
+
+ 
+![image](https://user-images.githubusercontent.com/84865915/120033773-af23b380-c019-11eb-940b-14aea86ffd65.png)
+
+
+Below screenshot it is showing during synthesis no cells are inferred
+
+ 
+ 
+![image](https://user-images.githubusercontent.com/84865915/120034305-80f2a380-c01a-11eb-9ada-e1aae3ae8875.png)
+
+
+
+![image](https://user-images.githubusercontent.com/84865915/120034324-8819b180-c01a-11eb-8106-5150f9358b07.png)
+
+
+
+
+
