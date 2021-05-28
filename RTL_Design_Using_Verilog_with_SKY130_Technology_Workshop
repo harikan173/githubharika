@@ -1,3 +1,12 @@
+DAY1
+
+![Screenshot (329)](https://user-images.githubusercontent.com/84865915/120038539-12fdaa80-c021-11eb-84d4-afe4ced417ab.png)
+![Screenshot (330)](https://user-images.githubusercontent.com/84865915/120038553-18f38b80-c021-11eb-9a89-558900965b2a.png)
+![Screenshot (331)](https://user-images.githubusercontent.com/84865915/120038588-23158a00-c021-11eb-97d1-5bd3e59dd590.png)
+![Screenshot (332)](https://user-images.githubusercontent.com/84865915/120038612-290b6b00-c021-11eb-89ca-78753d4a8c39.png)
+![Screenshot (333)](https://user-images.githubusercontent.com/84865915/120038641-332d6980-c021-11eb-8cd3-e3c185b8a91a.png)
+![Screenshot (334)](https://user-images.githubusercontent.com/84865915/120038670-3b85a480-c021-11eb-9891-36d5c2db2fcd.png)
+![Screenshot (335)](https://user-images.githubusercontent.com/84865915/120038678-3fb1c200-c021-11eb-8758-8e5acd1195de.png)
 **Day 2 - Timing libs, hierarchical vs flat synthesis and efficient flop coding styles**
 **1.TIMING lib**
 Below sceen shot shows how the .lib looks and what it contains,in sky 130 the 130 indicates it is 130 nm technology and .lib also shows the operating conditions process, voltage and temperature.
